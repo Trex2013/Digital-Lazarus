@@ -25,11 +25,21 @@ class wmi_class:
 
         return driver_list             
 
+class read:
+    def __init__ (self):
+        pass
+
+    def read(self,id):
+        with open(id,"rb") as d:
+            mbr=d.read(512)
+
+            print(mbr)
 
 
 class main:
     def __init__(self):
         self.scan=wmi_class()
+        self.read=read()
 
     def run(self):
         driver_list=self.scan.handshake()
@@ -38,7 +48,9 @@ class main:
 
         id=driver_list[int(sel)]["id"]  
         driver=driver_list[int(sel)]["caption"]  
-        print(f"\n{driver} is selected")
+        print(f"\n======'{driver}' is selected======\n")
+
+        self.read.read(id)
 
 if __name__ == "__main__":
     main().run()

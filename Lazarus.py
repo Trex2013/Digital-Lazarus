@@ -30,10 +30,37 @@ class read:
         pass
 
     def read(self,id):
+        found=False
         with open(id,"rb") as d:
-            mbr=d.read(512)
+            with open(f"Lazarus.jpg","wb") as f:
+                while True:
+                    data=d.read(512)
+                    if len(data) == 0:
+                        break
 
-            print(mbr)
+                    else:
+                        
+                          if found==False:  
+                            if b'\xff\xd8\xff' in data:
+                                found=True
+                                start_in=data.find(b'\xff\xd8\xff')
+                                clean_data=data[start_in:]
+
+                                f.write(clean_data)
+                                continue
+
+                          if found:
+                             if b'\xff\xd9' in data:
+                                f.write(data)
+                                print("Recovery Complete")
+                                break
+
+                             else:
+                                f.write(data)
+                                continue
+                             
+
+                          
 
 
 class main:
